@@ -1,0 +1,11 @@
+C:\Users\User\RiderProjects\Translator\Translator\bin\Debug\netcoreapp2.2\Translator.deps.json
+C:\Users\User\RiderProjects\Translator\Translator\bin\Debug\netcoreapp2.2\Translator.runtimeconfig.json
+C:\Users\User\RiderProjects\Translator\Translator\bin\Debug\netcoreapp2.2\Translator.runtimeconfig.dev.json
+C:\Users\User\RiderProjects\Translator\Translator\bin\Debug\netcoreapp2.2\Translator.dll
+C:\Users\User\RiderProjects\Translator\Translator\bin\Debug\netcoreapp2.2\Translator.pdb
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.csprojAssemblyReference.cache
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.csproj.CoreCompileInputs.cache
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.AssemblyInfoInputs.cache
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.AssemblyInfo.cs
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.dll
+C:\Users\User\RiderProjects\Translator\Translator\obj\Debug\netcoreapp2.2\Translator.pdb
