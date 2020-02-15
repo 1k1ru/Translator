@@ -4,6 +4,7 @@
     <e p="C:\Users\User\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\User\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Translator.1576131664.00" t="ExcludeRecursive" />
     <e p="C:\Users\User\RiderProjects\Translator" t="IncludeFlat">
+      <e p=".git\info\exclude" t="IncludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Translator" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />

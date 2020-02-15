@@ -100,6 +100,8 @@
       <workItem from="1581701913097" duration="15916000" />
       <workItem from="1581757400099" duration="6487000" />
       <workItem from="1581769384351" duration="216000" />
+      <workItem from="1581770072433" duration="36000" />
+      <workItem from="1581770127493" duration="539000" />
     </task>
     <servers />
   </component>
@@ -127,6 +129,10 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
+    <state x="552" y="178" key="#Plugins" timestamp="1581770107956">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Plugins/0.0.1920.1040@0.0.1920.1040" timestamp="1581770107956" />
     <state x="414" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581633788882">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -215,13 +221,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Rider.ProjectTemplateDialog.Size/0.0.1920.1040@0.0.1920.1040" timestamp="1581596172438" />
-    <state x="461" y="162" key="SettingsEditor" timestamp="1581769552394">
+    <state x="461" y="162" key="SettingsEditor" timestamp="1581770141936">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581769552394" />
+    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581770141936" />
     <state x="826" y="386" width="250" height="278" key="jetbrains.javascript.buildTools.run-task-popup" timestamp="1581732286700">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="826" y="386" width="250" height="278" key="jetbrains.javascript.buildTools.run-task-popup/0.0.1920.1040@0.0.1920.1040" timestamp="1581732286700" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1581770083043">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1581770083043" />
   </component>
 </project>
