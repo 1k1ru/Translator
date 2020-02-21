@@ -8,6 +8,6 @@
         Separator,
         Comparison,
         Assignment,
-        Comment     // remove from lexemes ?
+        Comment
     }
 }

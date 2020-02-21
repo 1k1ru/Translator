@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Translator.LexicalAnalyzer
+namespace Translator.LexicalAnalyzer.Splitter
 {
     public class LexemeRegex
     {
