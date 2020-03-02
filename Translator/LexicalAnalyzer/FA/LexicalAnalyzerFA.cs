@@ -17,15 +17,16 @@ namespace Translator.LexicalAnalyzer.FA
             
             for (int i = 0; i < ex.Length; i++)
             {
+                char c = ex[i];
                 switch (state)
                 {
                     case StatesFA.Start:
                         lexeme = new LexTableNode();
-                        lexeme.Name = ex[i].ToString();
+                        lexeme.Name = c.ToString();
                         
-                        switch (ex[i])
+                        switch (c)
                         {
-                            case ' ': case '\t': case '\n':
+                            case ' ': case '\t': case '\n': case '\r': case '\0':
                                 break;
                             case '#':
                                 state = StatesFA.Comment;
@@ -42,7 +43,7 @@ namespace Translator.LexicalAnalyzer.FA
                                 table.Add(lexeme);
                                 break;
                             default:
-                                if (Regex.Matches(ex[i].ToString(), @"[^a-zA-Z_]").Count == 0)
+                                if (Regex.Matches(c.ToString(), @"[^a-zA-Z_]").Count == 0)
                                 {
                                     state = StatesFA.Word;
                                 }
@@ -55,9 +56,9 @@ namespace Translator.LexicalAnalyzer.FA
                         break;
                     
                     case StatesFA.Word:
-                        if (Regex.Matches(ex[i].ToString(), @"[^a-zA-Z0-9_]").Count == 0)
+                        if (Regex.Matches(c.ToString(), @"[^a-zA-Z0-9_]").Count == 0)
                         {
-                            lexeme.Name += ex[i];
+                            lexeme.Name += c;
                         }
                         else
                         {
@@ -81,10 +82,10 @@ namespace Translator.LexicalAnalyzer.FA
                         break;
                     
                     case StatesFA.Assignment:
-                        if (ex[i] == '=')
+                        if (c == '=')
                         {
                             lexeme.Lexeme = Lexemes.Assignment;
-                            lexeme.Name += ex[i];
+                            lexeme.Name += c;
                             table.Add(lexeme);
                             state = StatesFA.Start;
                         }
@@ -95,9 +96,9 @@ namespace Translator.LexicalAnalyzer.FA
                         break;
                     
                     case StatesFA.Comment:
-                        if (ex[i] != '\n')
+                        if (c != '\n')
                         {
-                            lexeme.Name += ex[i];
+                            lexeme.Name += c;
                         }
                         else
                         {
@@ -108,10 +109,7 @@ namespace Translator.LexicalAnalyzer.FA
                         break;
                     
                     case StatesFA.Error:
-                        throw new Exception("invalid input char");
-                    
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new Exception("invalid input char \'" + c + "\'");
                 }
             }
 

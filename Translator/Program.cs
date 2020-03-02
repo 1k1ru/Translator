@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Translator.LexicalAnalyzer;
 using Translator.LexicalAnalyzer.FA;
@@ -11,24 +13,29 @@ namespace Translator
     {
         static void Main(string[] args)
         {
-            //String input = "if a = _a2 then b1_:= _b2; else c1:=XVI; //jk";
-
-            string input = Console.ReadLine();
-            
-            List<LexTableNode> table = LexicalAnalyzer.Splitter.LexicalAnalyzer.Analyze(input);
-            
-            Console.WriteLine("FIRST METHOD:");
-            foreach (var lexeme in table)
+            string path = "input.txt";
+            if (args.Length != 0)
             {
-                Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.Lexeme);
+                path = args[0];
             }
 
-            table = LexicalAnalyzerFA.Analyze(input);
-            
-            Console.WriteLine("\nSECOND METHOD:");
-            foreach (var lexeme in table)
+            List<LexTableNode> table = new List<LexTableNode>();
+            using (FileStream fs = File.OpenRead(path))
             {
-                Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.Lexeme);
+                byte[] b = new byte[1024];
+                UTF8Encoding temp = new UTF8Encoding(true);
+                StringBuilder sb = new StringBuilder();
+                while (fs.Read(b,0,b.Length) > 0)
+                {
+                    sb.Append(temp.GetString(b));
+                }
+                
+                table = LexicalAnalyzerFA.Analyze(sb.ToString());
+                
+                foreach (var lexeme in table)
+                {
+                    Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.Lexeme);
+                }
             }
         }
     }
