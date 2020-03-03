@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="IDTable" />
       <Folder Include="SyntacticalAnalyzer" />
     </ItemGroup>
 

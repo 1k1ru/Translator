@@ -30,11 +30,18 @@ namespace Translator
                     sb.Append(temp.GetString(b));
                 }
                 
-                table = LexicalAnalyzerFA.Analyze(sb.ToString());
-                
-                foreach (var lexeme in table)
+                LexicalAnalyzerFA lexicalAnalyzer = new LexicalAnalyzerFA(sb.ToString());
+
+                Console.WriteLine("Lexeme table:");
+                foreach (var lexeme in lexicalAnalyzer.LexTable)
                 {
                     Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.Lexeme);
+                }
+                
+                Console.WriteLine("\nId table:");
+                foreach (var id in lexicalAnalyzer.IdTable)
+                {
+                    Console.WriteLine(id.Key + " \t\t: " + id.Value);
                 }
             }
         }

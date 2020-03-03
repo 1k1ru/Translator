@@ -6,18 +6,28 @@ namespace Translator.LexicalAnalyzer.FA
 {
     public class LexicalAnalyzerFA
     {
-        private static StatesFA state;
-
-        public static List<LexTableNode> Analyze(string ex)
+        public List<LexTableNode> LexTable { get; private set; }
+        public Dictionary<string, int> IdTable { get; private set; }
+        
+        private StatesFA state;
+        
+        public LexicalAnalyzerFA(string code)
         {
-            ex += '\n';
+            LexTable = new List<LexTableNode>();
+            IdTable = new Dictionary<string, int>();
+            Analyze(code);
+        }
+
+        private void Analyze(string code)
+        {
+            code += '\n';
             state = StatesFA.Start;
-            List<LexTableNode> table = new List<LexTableNode>();
+            int idCounter = 0;
             LexTableNode lexeme = new LexTableNode();
             
-            for (int i = 0; i < ex.Length; i++)
+            for (int i = 0; i < code.Length; i++)
             {
-                char c = ex[i];
+                char c = code[i];
                 switch (state)
                 {
                     case StatesFA.Start:
@@ -33,14 +43,14 @@ namespace Translator.LexicalAnalyzer.FA
                                 break;
                             case ';':
                                 lexeme.Lexeme = Lexemes.Separator;
-                                table.Add(lexeme);
+                                LexTable.Add(lexeme);
                                 break;
                             case ':':
                                 state = StatesFA.Assignment;
                                 break;
                             case '<': case '>': case '=':
                                 lexeme.Lexeme = Lexemes.Comparison;
-                                table.Add(lexeme);
+                                LexTable.Add(lexeme);
                                 break;
                             default:
                                 if (Regex.Matches(c.ToString(), @"[^a-zA-Z_]").Count == 0)
@@ -73,9 +83,19 @@ namespace Translator.LexicalAnalyzer.FA
                             else
                             {
                                 lexeme.Lexeme = Lexemes.Id;
+                                try
+                                {
+                                    IdTable.Add(lexeme.Name, idCounter);
+                                    idCounter++;
+                                }
+                                catch (Exception ignored)
+                                {
+                                    
+                                }
+                                
                             }
                             
-                            table.Add(lexeme);
+                            LexTable.Add(lexeme);
                             i--;
                             state = StatesFA.Start;
                         }
@@ -86,7 +106,7 @@ namespace Translator.LexicalAnalyzer.FA
                         {
                             lexeme.Lexeme = Lexemes.Assignment;
                             lexeme.Name += c;
-                            table.Add(lexeme);
+                            LexTable.Add(lexeme);
                             state = StatesFA.Start;
                         }
                         else
@@ -103,7 +123,7 @@ namespace Translator.LexicalAnalyzer.FA
                         else
                         {
                             lexeme.Lexeme = Lexemes.Comment;
-                            table.Add(lexeme);
+                            LexTable.Add(lexeme);
                             state = StatesFA.Start;
                         }
                         break;
@@ -112,8 +132,6 @@ namespace Translator.LexicalAnalyzer.FA
                         throw new Exception("invalid input char \'" + c + "\'");
                 }
             }
-
-            return table;
         }
     }
 }
