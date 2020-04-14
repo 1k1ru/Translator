@@ -1,6 +1,6 @@
-﻿namespace Translator.LexicalAnalyzer.FA
+﻿namespace Translator.LexicalAnalyzer
 {
-    public enum StatesFA
+    public enum States
     {
         Start,
         Word,

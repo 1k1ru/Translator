@@ -2,71 +2,70 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Translator.LexicalAnalyzer.FA
+namespace Translator.LexicalAnalyzer
 {
-    public class LexicalAnalyzerFA
+    public class LexicalAnalyzer
     {
-        public List<LexTableNode> LexTable { get; private set; }
-        public Dictionary<string, int> IdTable { get; private set; }
+        public List<Lexeme> LexTable { get; }
+        public Dictionary<string, int> IdTable { get; }
         
-        private StatesFA state;
+        private States state;
         
-        public LexicalAnalyzerFA(string code)
+        public LexicalAnalyzer(string code)
         {
-            LexTable = new List<LexTableNode>();
+            LexTable = new List<Lexeme>();
             IdTable = new Dictionary<string, int>();
             Analyze(code);
         }
 
-        private void Analyze(string code)
+        private void Analyze(string source)
         {
-            code += '\n';
-            state = StatesFA.Start;
+            source += '\n';
+            state = States.Start;
             int idCounter = 0;
-            LexTableNode lexeme = new LexTableNode();
-            
-            for (int i = 0; i < code.Length; i++)
+            int lineCounter = 1;
+            Lexeme lexeme = new Lexeme();
+
+            for (int i = 0; i < source.Length; i++)
             {
-                char c = code[i];
+                char c = source[i];
                 switch (state)
                 {
-                    case StatesFA.Start:
-                        lexeme = new LexTableNode();
+                    case States.Start:
+                        lexeme = new Lexeme();
                         lexeme.Name = c.ToString();
                         
                         switch (c)
                         {
-                            case ' ': case '\t': case '\n': case '\r': case '\0':
+                            case '\n':
+                                lineCounter++;
+                                break;
+                            case ' ': case '\t': case '\r': case '\0':
                                 break;
                             case '#':
-                                state = StatesFA.Comment;
+                                state = States.Comment;
                                 break;
                             case ';':
-                                lexeme.Lexeme = Lexemes.Separator;
+                                lexeme.LexemeType = LexemeTypes.Separator;
                                 LexTable.Add(lexeme);
                                 break;
                             case ':':
-                                state = StatesFA.Assignment;
+                                state = States.Assignment;
                                 break;
                             case '<': case '>': case '=':
-                                lexeme.Lexeme = Lexemes.Comparison;
+                                lexeme.LexemeType = LexemeTypes.Comparison;
                                 LexTable.Add(lexeme);
                                 break;
                             default:
-                                if (Regex.Matches(c.ToString(), @"[^a-zA-Z_]").Count == 0)
-                                {
-                                    state = StatesFA.Word;
-                                }
-                                else
-                                {
-                                    state = StatesFA.Error;
-                                }
+                                state = Regex.IsMatch(c.ToString(), @"[a-zA-Z_]") 
+                                    ? States.Word 
+                                    : States.Error;
                                 break;
                         }
                         break;
                     
-                    case StatesFA.Word:
-                        if (Regex.Matches(c.ToString(), @"[^a-zA-Z0-9_]").Count == 0)
+                    case States.Word:
+                        if (Regex.IsMatch(c.ToString(), @"[a-zA-Z0-9_]"))
                         {
                             lexeme.Name += c;
                         }
@@ -74,62 +73,63 @@ namespace Translator.LexicalAnalyzer.FA
                         {
                             if (lexeme.Name == "if" || lexeme.Name == "then" || lexeme.Name == "else")
                             {
-                                lexeme.Lexeme = Lexemes.Condition;
+                                lexeme.LexemeType = LexemeTypes.Condition;
                             }
-                            else if (Regex.Matches(lexeme.Name, @"[^IVXLCDM]").Count == 0)
+                            else if (Regex.IsMatch(lexeme.Name, @"[IVXLCDM]"))
                             {
-                                lexeme.Lexeme = Lexemes.RomanNum;
+                                lexeme.LexemeType = LexemeTypes.RomanNum;
                             }
                             else
                             {
-                                lexeme.Lexeme = Lexemes.Id;
+                                lexeme.LexemeType = LexemeTypes.Id;
                                 try
                                 {
                                     IdTable.Add(lexeme.Name, idCounter);
                                     idCounter++;
                                 }
-                                catch (Exception ignored)
+                                catch (Exception ignore)
                                 {
-                                    
+                                    //ignored
                                 }
                                 
                             }
                             
                             LexTable.Add(lexeme);
                             i--;
-                            state = StatesFA.Start;
+                            state = States.Start;
                         }
                         break;
                     
-                    case StatesFA.Assignment:
+                    case States.Assignment:
                         if (c == '=')
                         {
-                            lexeme.Lexeme = Lexemes.Assignment;
+                            lexeme.LexemeType = LexemeTypes.Assignment;
                             lexeme.Name += c;
                             LexTable.Add(lexeme);
-                            state = StatesFA.Start;
+                            state = States.Start;
                         }
                         else
                         {
-                            state = StatesFA.Error;
+                            state = States.Error;
                         }
                         break;
                     
-                    case StatesFA.Comment:
+                    case States.Comment:
                         if (c != '\n')
                         {
                             lexeme.Name += c;
                         }
                         else
                         {
-                            lexeme.Lexeme = Lexemes.Comment;
+                            lexeme.LexemeType = LexemeTypes.Comment;
                             LexTable.Add(lexeme);
-                            state = StatesFA.Start;
+                            state = States.Start;
+                            lineCounter++;
                         }
                         break;
                     
-                    case StatesFA.Error:
-                        throw new Exception("invalid input char \'" + c + "\'");
+                    case States.Error:
+                        throw new Exception($"line {lineCounter}: invalid input char \'{c}\'");
                 }
             }
         }

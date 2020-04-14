@@ -6,7 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="SyntacticalAnalyzer" />
+      <Compile Remove="SyntacticalAnalyzer\**" />
+      <EmbeddedResource Remove="SyntacticalAnalyzer\**" />
+      <None Remove="SyntacticalAnalyzer\**" />
     </ItemGroup>
 
 </Project>

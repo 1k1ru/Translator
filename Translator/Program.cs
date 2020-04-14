@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Translator.LexicalAnalyzer;
-using Translator.LexicalAnalyzer.FA;
+using Translator.SyntacticAnalyzer;
 
 namespace Translator
 {
@@ -19,7 +19,7 @@ namespace Translator
                 path = args[0];
             }
 
-            List<LexTableNode> table = new List<LexTableNode>();
+            List<Lexeme> table = new List<Lexeme>();
             using (FileStream fs = File.OpenRead(path))
             {
                 byte[] b = new byte[1024];
@@ -29,13 +29,13 @@ namespace Translator
                 {
                     sb.Append(temp.GetString(b));
                 }
-                
-                LexicalAnalyzerFA lexicalAnalyzer = new LexicalAnalyzerFA(sb.ToString());
+
+                LexicalAnalyzer.LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer.LexicalAnalyzer(sb.ToString());
 
                 Console.WriteLine("Lexeme table:");
                 foreach (var lexeme in lexicalAnalyzer.LexTable)
                 {
-                    Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.Lexeme);
+                    Console.WriteLine(lexeme.Name + " \t\t: " + lexeme.LexemeType);
                 }
                 
                 Console.WriteLine("\nId table:");
@@ -43,6 +43,12 @@ namespace Translator
                 {
                     Console.WriteLine(id.Key + " \t\t: " + id.Value);
                 }
+
+                SyntacticAnalyzer.SyntacticAnalyzer syntacticAnalyzer 
+                    = new SyntacticAnalyzer.SyntacticAnalyzer(lexicalAnalyzer.LexTable, lexicalAnalyzer.IdTable);
+
+                Console.WriteLine("\nAST:");
+                syntacticAnalyzer.Print();
             }
         }
     }

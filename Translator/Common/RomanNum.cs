@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Translator.Other
+namespace Translator.Common
 {
     public class RomanNum
     {
@@ -10,6 +10,24 @@ namespace Translator.Other
         {
             { 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 }
         };
+
+        public string Number { get; }
+
+        public RomanNum(string romanNum)
+        {
+            this.Number = romanNum;
+
+            foreach (var c in romanNum)
+            {
+                if (!RomanDict.Keys.Contains(c))
+                    throw new Exception("input roman number contains invalid character");
+            }
+        }
+
+        public int ToArabic()
+        {
+            return ToArabic(Number);
+        }
 
         public static int ToArabic(string romanNum)
         {

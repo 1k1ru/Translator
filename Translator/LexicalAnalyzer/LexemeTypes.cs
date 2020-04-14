@@ -1,6 +1,6 @@
 ﻿namespace Translator.LexicalAnalyzer
 {
-    public enum Lexemes
+    public enum LexemeTypes
     {
         Id,
         RomanNum,
